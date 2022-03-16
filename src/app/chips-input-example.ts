@@ -1,18 +1,9 @@
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import {
-  AfterViewInit,
   Component,
-  ElementRef,
-  OnDestroy,
-  OnInit,
-  ViewChild,
 } from '@angular/core';
 import { MatChipInputEvent } from '@angular/material/chips';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
-
-export interface Fruit {
-  name: string;
-}
 
 /**
  * @title Chips with input
@@ -24,7 +15,7 @@ export interface Fruit {
 })
 export class ChipsInputExample {
   readonly separatorKeysCodes = [ENTER, COMMA] as const;
-  fruits: Fruit[] = [{ name: 'Lemon' }, { name: 'Lime' }, { name: 'Apple' }];
+  fruits: string[] = ['Lemon', 'Lime', 'Apple'];
 
   pasteEventListener: EventListener;
 
@@ -32,7 +23,7 @@ export class ChipsInputExample {
     event.preventDefault();
     event.clipboardData.getData('Text').split(/;|,|\n/).forEach((value: string) => {
       if (value.trim()) {
-        this.fruits.push({ name: value.trim() });
+        this.fruits.push(value.trim());
       }
     })
   }
@@ -42,14 +33,14 @@ export class ChipsInputExample {
 
     // Add our fruit
     if (value) {
-      this.fruits.push({ name: value });
+      this.fruits.push(value.trim());
     }
 
     // Clear the input value
     event.chipInput!.clear();
   }
 
-  remove(fruit: Fruit): void {
+  remove(fruit: string): void {
     const index = this.fruits.indexOf(fruit);
 
     if (index >= 0) {
@@ -59,10 +50,6 @@ export class ChipsInputExample {
 
   drop(event: CdkDragDrop<any[]>) {
     moveItemInArray(this.fruits, event.previousIndex, event.currentIndex);
-  }
-
-  test(): void {
-    this.fruits.push({ name: 'test1' });
   }
 }
 
